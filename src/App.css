@@ -1,42 +1,102 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* ============================================
+   LAYOUT SHELL + SPLIT
+   ============================================ */
+.portfolio-shell {
+  position: relative;
+  min-height: 100vh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.split-layout {
+  display: flex;
+  min-height: 100vh;
+  align-items: stretch;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.split-left {
+  flex: 1;
+  max-width: 700px;
+  background: var(--page);
+  min-width: 0;
+}
+
+.split-right {
+  flex: 1;
+  min-width: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .split-layout { flex-direction: column; }
+  .split-left, .split-right { flex: none; width: 100%; max-width: 100%; }
+  .split-right {
+    position: static;
+    height: auto;
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* ============================================
+   SKIN SWITCHER
+   ============================================ */
+.skin-switcher {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 100;
 }
 
-.card {
-  padding: 2em;
+.skin-switcher-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(128,128,128,0.15);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  transition: background 0.2s;
+}
+.skin-switcher-btn:hover { background: rgba(128,128,128,0.28); }
+
+.skin-switcher-btn span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: block;
 }
 
-.read-the-docs {
-  color: #888;
+.skin-switcher-menu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: var(--page);
+  border: 0.5px solid var(--ink-faint);
+  border-radius: 6px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  overflow: hidden;
+  min-width: 140px;
 }
+
+.skin-switcher-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.skin-switcher-item:hover { background: var(--accent-light); }
+.skin-switcher-item.active { color: var(--accent); font-weight: 600; }

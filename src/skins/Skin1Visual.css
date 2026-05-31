@@ -1,0 +1,214 @@
+/* ============================================
+   SKIN 1 — EDITORIAL (dark, typographic)
+   ============================================ */
+.s1-visual {
+  width: 100%;
+  height: 100%;
+  background: #1a1a18;
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.s1-ghost {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  line-height: 0.85;
+  user-select: none;
+  pointer-events: none;
+}
+.s1-ghost-1 {
+  font-size: min(52vw, 1520px);
+  top: -14%;
+  left: -14%;
+  color: rgba(255,255,255,0.03);
+}
+.s1-ghost-2 {
+  font-size: min(38vw, 240px);
+  bottom: 2%;
+  right: -6%;
+  font-style: italic;
+  color: rgba(190,64,80,0.07);
+}
+
+.s1-line-h {
+  position: absolute;
+  height: 0.5px;
+  background: rgba(250,249,245,0.07);
+  left: 0; right: 0;
+}
+.s1-line-v {
+  position: absolute;
+  width: 0.5px;
+  background: rgba(250,249,245,0.07);
+  top: 0; bottom: 0;
+}
+
+.s1-dot {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #be4050;
+}
+
+.s1-vbar {
+  position: absolute;
+  right: 2rem;
+  top: 10%;
+  bottom: 10%;
+  width: 2px;
+  background: rgba(190,64,80,0.2);
+  border-radius: 1px;
+  z-index: 1;
+}
+.s1-vbar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 30%;
+  background: #be4050;
+  border-radius: 1px;
+}
+
+.s1-hero { position: relative; z-index: 2; }
+
+.s1-top-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #be4050;
+  margin-bottom: 1.2rem;
+}
+
+.s1-big-word {
+  text-align: right;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  /*font-size: min(13vw, 72px);*/
+  font-size: min(13vw, 92px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: #faf9f5;
+  display: block;
+}
+.s1-big-word.italic {
+  font-style: italic;
+  color: rgba(250,249,245,0.3);
+  /*font-size: min(11vw, 60px);*/
+  font-size: min(11vw, 80px);
+}
+.s1-big-word.accent { color: #be4050; }
+
+.s1-hero-divider {
+  width: 100%;
+  height: 0.5px;
+  background: rgba(250,249,245,0.12);
+  margin: 1.2rem 0;
+}
+
+.s1-hero-bottom {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.s1-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  color: rgba(250,249,245,0.35);
+  text-transform: uppercase;
+}
+.s1-tag.accent { color: #be4050; }
+
+.s1-section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(250,249,245,0.25);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+.s1-section-title::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: rgba(250,249,245,0.08);
+}
+
+.s1-color-block {
+  position: relative;
+  z-index: 2;
+}
+.s1-swatch-row { display: flex; gap: 5px; }
+.s1-swatch-item { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.s1-swatch { height: 32px; border-radius: 2px; }
+.s1-swatch-stack { display: flex; flex-direction: column; gap: 2px; }
+.s1-swatch-mini { height: 10px; border-radius: 1px; }
+.s1-swatch-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.42rem;
+  color: rgba(250,249,245,0.3);
+  letter-spacing: 0.08em;
+}
+.s1-swatch-hex {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.4rem;
+  color: rgba(250,249,245,0.18);
+}
+
+.s1-type-block {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.s1-type-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  border-bottom: 0.5px solid rgba(250,249,245,0.06);
+  padding-bottom: 0.5rem;
+}
+.s1-type-specimen { line-height: 1; }
+.s1-type-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.45rem;
+  color: rgba(250,249,245,0.25);
+  flex: 1;
+  text-align: right;
+}
+
+.s1-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 0.5px solid rgba(250,249,245,0.08);
+}
+.s1-footer-name {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.7rem;
+  color: rgba(250,249,245,0.3);
+}
+.s1-footer-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  color: #be4050;
+  letter-spacing: 0.1em;
+}

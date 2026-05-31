@@ -1,0 +1,211 @@
+/* ============================================
+   LEFT PANEL (shared content, re-skinned)
+   ============================================ */
+.left-panel {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0 1rem;
+  border-bottom: 0.5px solid var(--ink-faint);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+
+.hero {
+  padding: 3.5rem 0 3rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.hero-phonetic {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ink-mid);
+}
+
+.hero-pos {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--ink-light);
+}
+
+.hero-divider {
+  width: 2.5rem;
+  height: 1.5px;
+  background: var(--accent);
+  margin-bottom: 1.2rem;
+}
+
+.hero-definition {
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.hero-definition strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.hero-see-also {
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+.hero-see-also span {
+  color: var(--accent);
+  font-style: normal;
+  border-bottom: 0.5px solid var(--accent);
+  cursor: pointer;
+}
+
+.section { padding-top: 2.8rem; }
+
+/* --- SECTION LABEL: base común --- */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- SECTION LABEL: skin editorial --- */
+.skin-editorial .section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+.skin-editorial .section-label::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--ink-faint);
+}
+
+/* --- SECTION LABEL: skin product --- */
+.skin-product .section-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.05rem;
+  text-transform: none;
+  margin-bottom: .5rem;
+  color: var(--accent);
+}
+
+.about-text {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--ink-mid);
+}
+.about-text p + p { margin-top: 1rem; }
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+}
+
+.work-card {
+  background: var(--page);
+  border: 0.5px solid var(--ink-faint);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.work-card:hover { border-color: var(--accent); }
+
+.work-thumb {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--ink-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+.work-info {
+  padding: 0.85rem 1rem;
+  border-top: 0.5px solid var(--ink-faint);
+}
+
+.work-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.work-type { font-size: 0.75rem; color: var(--ink-light); font-style: italic; }
+
+.contact-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 0.5px solid var(--ink-faint);
+  font-size: 0.9rem;
+}
+
+.contact-label {
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  font-style: italic;
+  min-width: 80px;
+}
+
+.contact-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 0.5px solid transparent;
+  transition: border-color 0.2s;
+}
+.contact-link:hover { border-bottom-color: var(--accent); }
+
+.contact-location { font-size: 0.9rem; color: var(--ink-mid); }
+
+.footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 0.5px solid var(--ink-faint);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  font-style: italic;
+}
