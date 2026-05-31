@@ -1,6 +1,76 @@
+import { useState, useRef } from 'react'
+import { useMouse } from '../hooks/useMouse'
 import './Skin1Visual.css'
 
+// ─── Typographic machine constants ───────────────────────────────────────────
+
+const WORD_LABELS = ['Graphic', 'designer', 'who', 'codes.']
+
+// The 4 sizes in proportion X / 1.75X / 3.06X / 5.36X, X ≈ 38px
+const SIZES = [38, 66, 116, 204]
+
+const COLORS = [
+  'rgba(250,249,245,0.3)', // dim white
+  '#faf9f5',               // full white
+  '#BE404F',               // accent red
+]
+
+// Initial state: Graphic 204 white · designer 116 dim · who 38 red · codes. 66 white
+const INITIAL_WORDS = [
+  { size: 204, color: '#faf9f5' },
+  { size: 116, color: 'rgba(250,249,245,0.3)' },
+  { size: 38,  color: '#BE404F' },
+  { size: 66,  color: '#faf9f5' },
+]
+
+function styleFromSize(size) {
+  if (size >= 116) return { fontStyle: 'italic', fontWeight: 900 }
+  if (size === 66)  return { fontStyle: 'normal', fontWeight: 700 }
+  return { fontStyle: 'normal', fontWeight: 400 }
+}
+
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+// Generates a new valid state following all color + size rules
+function nextWordState(current) {
+  // Shuffle sizes until the permutation is different from the current one
+  const curSizes = current.map(w => w.size)
+  let sizes
+  do { sizes = shuffle(SIZES) } while (sizes.every((s, i) => s === curSizes[i]))
+
+  // Color rules: all 3 colors appear, one repeats twice (4 slots, 3 colors)
+  const doubleColor = COLORS[Math.floor(Math.random() * 3)]
+  const singles = COLORS.filter(c => c !== doubleColor)
+  const colors = shuffle([doubleColor, doubleColor, singles[0], singles[1]])
+
+  return sizes.map((size, i) => ({ size, color: colors[i] }))
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
 export default function Skin1Visual() {
+  const { onMove } = useMouse()
+  const [words, setWords] = useState(INITIAL_WORDS)
+  const accumRef = useRef(0)
+
+  // Accumulate mouse travel; every 10px trigger a new type state.
+  // setWords uses the functional updater so the stale callback always
+  // receives the latest state from React instead of a captured snapshot.
+  onMove((dist) => {
+    accumRef.current += dist
+    if (accumRef.current >= 50) {
+      accumRef.current = 0
+      setWords(prev => nextWordState(prev))
+    }
+  })
+
   return (
     <div className="s1-visual">
       {/* ghost background letters */}
@@ -20,10 +90,24 @@ export default function Skin1Visual() {
       {/* HERO TYPOGRAPHIC BLOCK */}
       <div className="s1-hero">
         <div className="s1-top-label">Rodolfo Pettinari</div>
-        <span className="s1-big-word">Graphic</span>
-        <span className="s1-big-word italic">designer</span>
-        <span className="s1-big-word accent">who</span>
-        <span className="s1-big-word">codes.</span>
+
+        {/* Fixed-height area: the 4 sizes always sum to the same total,
+            so the label above never shifts regardless of permutation. */}
+        <div className="s1-words-area">
+          {words.map((w, i) => {
+            const { fontStyle, fontWeight } = styleFromSize(w.size)
+            return (
+              <span
+                key={WORD_LABELS[i]}
+                className="s1-big-word"
+                style={{ fontSize: w.size + 'px', fontStyle, fontWeight, color: w.color }}
+              >
+                {WORD_LABELS[i]}
+              </span>
+            )
+          })}
+        </div>
+
         <div className="s1-hero-divider" />
         <div className="s1-hero-bottom">
           <span className="s1-tag">Universidad de Buenos Aires</span>

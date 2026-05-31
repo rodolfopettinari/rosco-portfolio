@@ -86,24 +86,21 @@
   margin-bottom: 1.2rem;
 }
 
+/* Words area keeps a stable height so the label above never shifts.
+   The 4 sizes always sum to the same total (38+66+116+204)*0.92 ≈ 390px. */
+.s1-words-area {
+  overflow: hidden;
+}
+
 .s1-big-word {
+  display: block;
   text-align: right;
   font-family: 'Playfair Display', serif;
-  font-weight: 900;
-  /*font-size: min(13vw, 72px);*/
-  font-size: min(13vw, 92px);
   line-height: 0.92;
   letter-spacing: -0.02em;
-  color: #faf9f5;
-  display: block;
+  /* font-size, font-weight, font-style and color are set dynamically via inline styles */
+  transition: font-size 0.22s ease, color 0.28s ease;
 }
-.s1-big-word.italic {
-  font-style: italic;
-  color: rgba(250,249,245,0.3);
-  /*font-size: min(11vw, 60px);*/
-  font-size: min(11vw, 80px);
-}
-.s1-big-word.accent { color: #be4050; }
 
 .s1-hero-divider {
   width: 100%;
