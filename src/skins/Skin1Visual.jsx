@@ -77,7 +77,7 @@ function generateGhosts() {
       x, y,
       char: GHOST_POOL[Math.floor(Math.random() * GHOST_POOL.length)],
       fontSize: 8 + depth * 492,       // 8px (far) → 500px (near)
-      opacity:  0.015 + depth * 0.065, // 0.015 (far) → 0.08 (near)
+      opacity:  0.013 + depth * 0.055, // 0.013 (far) → 0.068 (near)
       color: Math.random() < 0.12 ? '#be4050' : '#faf9f5',
       fontWeight: Math.random() < 0.4 ? 900 : 400,
       fontStyle:  Math.random() < 0.25 ? 'italic' : 'normal',
