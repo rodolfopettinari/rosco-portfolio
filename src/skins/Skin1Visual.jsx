@@ -2,20 +2,19 @@ import { useState, useRef } from 'react'
 import { useMouse } from '../hooks/useMouse'
 import './Skin1Visual.css'
 
-// ─── Typographic machine constants ───────────────────────────────────────────
+// ─── Typographic machine ──────────────────────────────────────────────────────
 
 const WORD_LABELS = ['Graphic', 'designer', 'who', 'codes.']
 
-// The 4 sizes in proportion X / 1.75X / 3.06X / 5.36X, X ≈ 38px
+// Sizes in proportion X / 1.75X / 3.06X / 5.36X, X ≈ 38px
 const SIZES = [38, 66, 116, 204]
 
 const COLORS = [
-  'rgba(250,249,245,0.3)', // dim white
-  '#faf9f5',               // full white
-  '#BE404F',               // accent red
+  'rgba(250,249,245,0.3)',
+  '#faf9f5',
+  '#BE404F',
 ]
 
-// Initial state: Graphic 204 white · designer 116 dim · who 38 red · codes. 66 white
 const INITIAL_WORDS = [
   { size: 204, color: '#faf9f5' },
   { size: 116, color: 'rgba(250,249,245,0.3)' },
@@ -38,14 +37,11 @@ function shuffle(arr) {
   return a
 }
 
-// Generates a new valid state following all color + size rules
 function nextWordState(current) {
-  // Shuffle sizes until the permutation is different from the current one
   const curSizes = current.map(w => w.size)
   let sizes
   do { sizes = shuffle(SIZES) } while (sizes.every((s, i) => s === curSizes[i]))
 
-  // Color rules: all 3 colors appear, one repeats twice (4 slots, 3 colors)
   const doubleColor = COLORS[Math.floor(Math.random() * 3)]
   const singles = COLORS.filter(c => c !== doubleColor)
   const colors = shuffle([doubleColor, doubleColor, singles[0], singles[1]])
@@ -53,29 +49,80 @@ function nextWordState(current) {
   return sizes.map((size, i) => ({ size, color: colors[i] }))
 }
 
+// ─── Ghost character grid ─────────────────────────────────────────────────────
+
+// Characters that look good at various sizes in Playfair Display
+const GHOST_POOL = ['G', 'D', 'R', 'P', 'O', 'g', 'd', 'r', 'p', 'c', '/', '&']
+
+// Rhomboid grid: even rows have 6 nodes, odd rows have 5 (offset by half a column).
+// The jitter is random but fixed at module load — positions are stable across renders.
+const GRID_NODES = (() => {
+  const evenXs = [2, 18, 36, 54, 72, 90]
+  const oddXs  = [10, 27, 45, 63, 81]
+  const rowYs  = [5, 21, 39, 57, 74, 91]
+  return rowYs.flatMap((y, row) =>
+    (row % 2 === 0 ? evenXs : oddXs).map(x => ({
+      x: x + (Math.random() * 6 - 3),  // ±3% horizontal jitter
+      y: y + (Math.random() * 8 - 4),  // ±4% vertical jitter
+    }))
+  )
+})()
+// Total: 3 even rows × 6 + 3 odd rows × 5 = 33 nodes
+
+function generateGhosts() {
+  return GRID_NODES.map(({ x, y }) => {
+    // Squaring skews toward 0, so most characters are small/far, few are large/near
+    const depth = Math.random() ** 2
+    return {
+      x, y,
+      char: GHOST_POOL[Math.floor(Math.random() * GHOST_POOL.length)],
+      fontSize: 8 + depth * 492,       // 8px (far) → 500px (near)
+      opacity:  0.015 + depth * 0.065, // 0.015 (far) → 0.08 (near)
+      color: Math.random() < 0.12 ? '#be4050' : '#faf9f5',
+      fontWeight: Math.random() < 0.4 ? 900 : 400,
+      fontStyle:  Math.random() < 0.25 ? 'italic' : 'normal',
+    }
+  })
+}
+
+const INITIAL_GHOSTS = generateGhosts()
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Skin1Visual() {
   const { onMove } = useMouse()
-  const [words, setWords] = useState(INITIAL_WORDS)
+  const [words, setWords]   = useState(INITIAL_WORDS)
+  const [ghosts, setGhosts] = useState(INITIAL_GHOSTS)
   const accumRef = useRef(0)
 
-  // Accumulate mouse travel; every 10px trigger a new type state.
-  // setWords uses the functional updater so the stale callback always
-  // receives the latest state from React instead of a captured snapshot.
+  // Both the typographic machine and the ghost grid fire on the same 50px tick.
   onMove((dist) => {
     accumRef.current += dist
     if (accumRef.current >= 50) {
       accumRef.current = 0
       setWords(prev => nextWordState(prev))
+      setGhosts(generateGhosts())
     }
   })
 
   return (
     <div className="s1-visual">
-      {/* ghost background letters */}
-      <div className="s1-ghost s1-ghost-1">G</div>
-      <div className="s1-ghost s1-ghost-2">D</div>
+      {/* Rhomboid ghost character grid — renders behind everything else */}
+      {ghosts.map((g, i) => (
+        <div
+          key={i}
+          className="s1-ghost-item"
+          style={{
+            left:       g.x + '%',
+            top:        g.y + '%',
+            fontSize:   g.fontSize + 'px',
+            opacity:    g.opacity,
+            color:      g.color,
+            fontWeight: g.fontWeight,
+            fontStyle:  g.fontStyle,
+          }}
+        >{g.char}</div>
+      ))}
 
       {/* structural lines */}
       <div className="s1-line-h" style={{ top: '38%' }} />
@@ -91,8 +138,6 @@ export default function Skin1Visual() {
       <div className="s1-hero">
         <div className="s1-top-label">Rodolfo Pettinari</div>
 
-        {/* Fixed-height area: the 4 sizes always sum to the same total,
-            so the label above never shifts regardless of permutation. */}
         <div className="s1-words-area">
           {words.map((w, i) => {
             const { fontStyle, fontWeight } = styleFromSize(w.size)
