@@ -13,18 +13,18 @@ export default function SkinSwitcher({ skins, activeIndex, onChange }) {
 
   // Cambio automático por scroll: al pasar 70px, sugiere el SIGUIENTE skin UNA sola vez.
   // Después se autodesactiva para evitar loops y respetar al usuario.
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!autoEnabledRef.current) return
-      if (window.scrollY > 120) {
-        autoEnabledRef.current = false   // se apaga inmediatamente
-        setAutoEnabled(false)
-        onChange(1)                      // va al skin 2 una sola vez
-      }
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [onChange])
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (!autoEnabledRef.current) return
+  //     if (window.scrollY > 120) {
+  //       autoEnabledRef.current = false   // se apaga inmediatamente
+  //       setAutoEnabled(false)
+  //       onChange(1)                      // va al skin 2 una sola vez
+  //     }
+  //   }
+  //   window.addEventListener('scroll', handleScroll, { passive: true })
+  //   return () => window.removeEventListener('scroll', handleScroll)
+  // }, [onChange])
 
   const handleManualSelect = (index) => {
     setAutoEnabled(false)       // desactiva el cambio por scroll para siempre
